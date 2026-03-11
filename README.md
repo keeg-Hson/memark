@@ -28,8 +28,8 @@ npm run dev
 - An Anthropic API key → https://console.anthropic.com
 
 ## How it works
-1. Paste 1–5 samples of your own writing (emails, essays, messages — anything real)
-2. Memark sends them to Claude with a style analysis meta-prompt
+1. Paste 1–5 samples of your own writing (emails, essays, messages, etc)
+2. Memark sends them to Claude (or OpenAI) with a style analysis meta-prompt
 3. Claude returns a structured style fingerprint
 4. A second pass converts the fingerprint into a ready-to-use system prompt + style guide
 5. Drop the system prompt into ChatGPT custom instructions, a Claude Project, or any LLM
