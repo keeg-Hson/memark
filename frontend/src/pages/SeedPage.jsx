@@ -207,7 +207,7 @@ function SampleBlock({ index, value, onChange, onRemove, disabled }) {
     <div style={{ position: 'relative' }}>
       <textarea
         value={value}
-        onChange={v => gw.updateSample(i, v.slice(0, 3000))} /* v.slice(min char value, max char value permitted) */ 
+        onChange={e => onChange(e.target.value.slice(0, 50000))} /* v.slice(min char value, max char value permitted) */ 
         disabled={disabled}
         placeholder={`Sample ${index + 1} — paste an email, essay, Slack message, anything you've written…`}
         rows={5}
