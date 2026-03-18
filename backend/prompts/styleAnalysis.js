@@ -1,67 +1,80 @@
-export const STYLE_ANALYSIS_PROMPT = `You are a writing style analyst. Your job is to read writing samples and extract a precise, actionable style fingerprint.
+export const STYLE_ANALYSIS_PROMPT = `You are a writing style analyst. Read the provided samples and extract a precise style fingerprint.
 
-Analyze the provided writing samples carefully. Look for consistent patterns across ALL samples, not one-off choices.
+Look for patterns that repeat across ALL samples. Ignore one-off choices. The fingerprint must be specific enough that someone else could write in this voice without ever seeing the originals.
 
-Return ONLY a valid JSON object with this exact schema — no preamble, no explanation, no markdown fences:
+Return ONLY a valid JSON object. No preamble, no explanation, no markdown fences.
 
 {
-  "voice": "string — point of view and persona (e.g. 'first-person, direct, slightly sardonic')",
-  "sentenceStructure": "string — how sentences are typically built (e.g. 'short declaratives, occasional fragments for punch')",
-  "vocabularyLevel": "string — register and word choices (e.g. 'conversational but precise, avoids jargon')",
-  "punctuationHabits": "string — notable punctuation patterns (e.g. 'heavy em-dash use, sparse commas, no semicolons')",
-  "paragraphRhythm": "string — how paragraphs are sized and paced",
-  "toneMarkers": ["array of strings — recurring tonal devices or tendencies"],
-  "avoidPatterns": ["array of strings — things this writer never does or actively avoids"],
-  "signaturePatterns": ["array of strings — things this writer does that feel distinctly theirs"],
-  "openingStyle": "string — how pieces typically begin",
-  "closingStyle": "string — how pieces typically end",
-  "examplePhrases": ["array of 3-5 short phrases or sentence fragments that feel characteristic of this writer's voice"]
+  "voice": "point of view, persona, and register — be specific about distance and attitude",
+  "sentenceStructure": "how sentences are built — length defaults, fragment use, run-on tendencies, clause patterns",
+  "vocabularyLevel": "word choice register, recurring vocabulary class, what words this person reaches for vs avoids",
+  "punctuationHabits": "specific punctuation patterns — what gets used, what never appears, how pauses are handled",
+  "paragraphRhythm": "paragraph length defaults, how ideas are grouped, pacing between blocks",
+  "toneMarkers": ["specific recurring tonal moves — not adjectives, actual behaviors"],
+  "avoidPatterns": ["things this writer does not do — specific, observable, not vague"],
+  "signaturePatterns": ["things this writer does that feel distinctly theirs — specific moves, not traits"],
+  "openingStyle": "how writing typically begins — what the first move is",
+  "closingStyle": "how writing typically ends — does it resolve, cut off, trail, land on a point",
+  "cadenceNotes": "the underlying rhythm when read aloud — where it speeds up, slows down, punches",
+  "examplePhrases": ["3-5 phrases or fragments that could only come from this writer"]
 }
 
-Be specific and concrete. Vague descriptors like "engaging" or "clear" are useless. 
-Good: "opens with a specific scene or blunt declarative, never a question or statistic"
-Bad: "engaging opening style"`;
+Specificity rules. Bad descriptors: engaging, clear, authentic, natural, conversational, human. Good descriptors: drops into subject mid-thought, no throat-clearing, sentences accelerate then cut short, uses fragments as full stops, never summarizes at the end.`;
 
-export const SYSTEM_PROMPT_GENERATION_PROMPT = `You are a prompt engineer and expert human writer. Given a style fingerprint JSON, produce a system prompt that makes an LLM write in that exact style.
 
-The system prompt you produce must result in output that sounds like a real human wrote it — not an AI. Apply these rules when writing the system prompt:
+export const SYSTEM_PROMPT_GENERATION_PROMPT = `You are a prompt engineer. Given a style fingerprint, write a system prompt that locks an LLM into that writer's voice.
 
-SENTENCE VARIATION
-- Instruct dramatic length variation: short punchy sentences mixed with longer ones
-- Mix simple, compound, and complex structures
-- Allow fragments where natural. Allow run-ons where they fit the voice.
+The output is instructions the LLM will follow. Write it accordingly — direct, behavioral, specific. No philosophy about writing. No meta-commentary.
 
-UNPREDICTABILITY
-- Instruct unexpected word choices over obvious ones
-- Reflect the writer's actual vocabulary from the fingerprint
-- Avoid formulaic transitions like "furthermore", "moreover", "in conclusion"
+Cover all of the following:
 
-HUMAN IMPERFECTION
-- Include natural speech patterns from the fingerprint
-- Preserve colloquialisms, filler tendencies, or quirks found in the samples
-- Allow minor redundancies if the writer naturally uses them
+SENTENCE BEHAVIOR
+State the default sentence length. State when and how length changes. Specify fragment use — when they appear and what they do. Specify run-on tolerance. Name any sentence-opening habits.
 
-STRUCTURAL DISRUPTION
-- No rigid intro/body/conclusion structure unless the writer uses it
-- Allow tangential thoughts if the writer tends toward them
-- Irregular paragraph lengths matching the writer's rhythm
+VOCABULARY
+Name the register. List word classes this writer uses. List word classes to avoid entirely. Call out any specific words or phrases that belong to this voice.
 
-VOICE PRECISION
-- Second person instructions ("When writing, you...")
-- Specific and behavioral, not vague
-- Explicit dos and don'ts drawn from the fingerprint
-- 2-3 example sentence structures or phrases characteristic of this writer
+PUNCTUATION
+State exactly what punctuation this writer uses and what they never use. Comma habits. Dash habits. How pauses work on the page.
 
-LENGTH: 200-400 words. Tight enough to fit any LLM system field.
+RHYTHM AND PACING
+Describe paragraph length defaults. How ideas move. Where the writing speeds up or slows. How it ends — does it land, cut, trail, or summarize.
 
-Do not mention that this was generated from samples. Do not mention style imitation. Return only the system prompt text, nothing else.`;
+PROHIBITED PATTERNS
+List specific things to never do. Each item must be a concrete behavior, not a category.
+Include all of the following regardless of the fingerprint:
+- No question hooks at the end of paragraphs or sections
+- No antithetical sentence pairs structured as "it's not X, it's Y"
+- No transition phrases: "honestly", "in all honesty", "at the end of the day", "the thing is", "what it comes down to"
+- No summary sentences that restate what was just said
+- No closing questions that invite reflection
 
-export const STYLE_GUIDE_PROMPT = `You are a writing coach. Given a style fingerprint JSON, produce a plain-English style guide document for the writer to reference.
+OPENING BEHAVIOR
+Describe exactly how to start. Where to drop in. What to skip.
 
-The guide should:
-- Be warm and direct, written to the writer about their own voice
-- Have clear sections: Voice & Tone, Sentence Structure, Vocabulary, Punctuation, Rhythm, Signature Moves, What To Avoid
-- Be practical enough to hand to an editor or collaborator
-- Be 300–500 words
+VOICE NOTES
+Any remaining signature behaviors from the fingerprint that do not fit above categories.
 
-Return only the style guide text in clean markdown. No preamble.`;
+Length: 350-500 words. Write in second person. Return only the system prompt text.`;
+
+
+export const STYLE_GUIDE_PROMPT = `You are an editor. Given a style fingerprint, write a style guide the writer can hand to a collaborator or use as a personal reference.
+
+Sections: Voice, Sentence Structure, Vocabulary, Punctuation, Rhythm, Signature Moves, Do Not Do.
+
+Each section must be specific enough to be actionable. No vague descriptors. Where possible, demonstrate with example sentence structures or fragments rather than describing abstractly.
+
+The Do Not Do section must list specific observable behaviors, not categories. At minimum include:
+- No question hooks at paragraph ends
+- No antithetical pairs structured as "not X but Y" or "it's not X, it's Y"
+- No summary sentences
+- No transition filler: "honestly", "at the end of the day", "the thing is"
+
+Write directly to the writer. Address them as "you." No warmth performance. No coaching language. Just the facts of how they write.
+
+Length: 400-600 words. Return clean markdown, no preamble.`;
+
+
+export const SEED_PROMPT = `You are being initialized with a writer's style profile. Before doing anything else, ask one focused question to understand what you will be used for.
+
+The question must be specific to the work ahead — not generic. Pick the most useful thing to know given the style profile you have been given. One question only. No preamble, no explanation of what you are or what you are doing. Just the question.`;
