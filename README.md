@@ -1,6 +1,9 @@
 # memark
 Paste samples of your writing. Get a system prompt that makes any LLM sound exactly like you.
 
+<img width="1223" height="734" alt="Screen Shot 2026-03-11 at 1 50 13 AM" src="https://github.com/user-attachments/assets/f5032a58-6440-4e45-9f1d-52005aaee077" />
+
+
 ## Quick Start
 
 ### 1. Backend
@@ -28,8 +31,8 @@ npm run dev
 - An Anthropic API key → https://console.anthropic.com
 
 ## How it works
-1. Paste 1–5 samples of your own writing (emails, essays, messages — anything real)
-2. Memark sends them to Claude with a style analysis meta-prompt
+1. Paste 1–5 samples of your own writing (emails, essays, messages, etc)
+2. Memark sends them to Claude (or OpenAI) with a style analysis meta-prompt
 3. Claude returns a structured style fingerprint
 4. A second pass converts the fingerprint into a ready-to-use system prompt + style guide
 5. Drop the system prompt into ChatGPT custom instructions, a Claude Project, or any LLM
