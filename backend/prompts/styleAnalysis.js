@@ -22,17 +22,39 @@ Be specific and concrete. Vague descriptors like "engaging" or "clear" are usele
 Good: "opens with a specific scene or blunt declarative, never a question or statistic"
 Bad: "engaging opening style"`;
 
-export const SYSTEM_PROMPT_GENERATION_PROMPT = `You are a prompt engineer. Given a style fingerprint JSON, produce a system prompt that will make an LLM write in that exact style.
+export const SYSTEM_PROMPT_GENERATION_PROMPT = `You are a prompt engineer and expert human writer. Given a style fingerprint JSON, produce a system prompt that makes an LLM write in that exact style.
 
-The system prompt should:
-- Be written in second person ("When writing, you...")
-- Be specific and behavioral, not vague
-- List explicit dos and don'ts
-- Include 2–3 example sentence structures or phrases the writer uses
-- Be between 200–400 words — tight enough to fit in any LLM's system field
-- NOT mention that it was generated from samples or that this is a style imitation
+The system prompt you produce must result in output that sounds like a real human wrote it — not an AI. Apply these rules when writing the system prompt:
 
-Return only the system prompt text. No preamble, no labels, no explanation.`;
+SENTENCE VARIATION
+- Instruct dramatic length variation: short punchy sentences mixed with longer ones
+- Mix simple, compound, and complex structures
+- Allow fragments where natural. Allow run-ons where they fit the voice.
+
+UNPREDICTABILITY
+- Instruct unexpected word choices over obvious ones
+- Reflect the writer's actual vocabulary from the fingerprint
+- Avoid formulaic transitions like "furthermore", "moreover", "in conclusion"
+
+HUMAN IMPERFECTION
+- Include natural speech patterns from the fingerprint
+- Preserve colloquialisms, filler tendencies, or quirks found in the samples
+- Allow minor redundancies if the writer naturally uses them
+
+STRUCTURAL DISRUPTION
+- No rigid intro/body/conclusion structure unless the writer uses it
+- Allow tangential thoughts if the writer tends toward them
+- Irregular paragraph lengths matching the writer's rhythm
+
+VOICE PRECISION
+- Second person instructions ("When writing, you...")
+- Specific and behavioral, not vague
+- Explicit dos and don'ts drawn from the fingerprint
+- 2-3 example sentence structures or phrases characteristic of this writer
+
+LENGTH: 200-400 words. Tight enough to fit any LLM system field.
+
+Do not mention that this was generated from samples. Do not mention style imitation. Return only the system prompt text, nothing else.`;
 
 export const STYLE_GUIDE_PROMPT = `You are a writing coach. Given a style fingerprint JSON, produce a plain-English style guide document for the writer to reference.
 
